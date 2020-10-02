@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Chunked transfer encoding</title>
+</head>
+<body>
+
+<script>
+var xhr = new XMLHttpRequest();
+xhr.onprogress = (e) => {
+	console.log("onprogress: " + e.loaded + " bytes loaded");
+	if (e.lengthComputable) {
+		console.log("onprogress: " + (e.loaded / e.total) * 100 + "% loaded");
+	} else {
+		console.log("onprogress: length not computable")
+	}
+};
+xhr.onreadystatechange = (e) => {
+	if (xhr.readyState === XMLHttpRequest.DONE) {
+		console.log("onreadystatechange: done, response='" + xhr.responseText + "'");
+	} else {
+		console.log("onreadystatechange: " + xhr.readyState);
+	}
+};
+xhr.open('GET', 'http://localhost:8080/');
+xhr.send();
+</script>
+
+</body>
+</html>
