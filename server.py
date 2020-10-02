@@ -1,6 +1,7 @@
 #!/usr/bin/python3.7
 
 from socketserver import TCPServer, BaseRequestHandler
+from time import sleep
 import sys
 
 class MyRequestHandler(BaseRequestHandler):
@@ -10,13 +11,25 @@ class MyRequestHandler(BaseRequestHandler):
             b"HTTP/1.1 200 Ok\015\012"
             b"Content-Type: text/plain\015\012"
             b"Transfer-Encoding: chunked\015\012"
+            b"Access-Control-Allow-Origin: *\015\012"
             b"\015\012"
+        )
+        sleep(2)
+        self.request.send(
             b"3;param1=paramval1\015\012"
             b"foo\015\012"
+        )
+        sleep(2)
+        self.request.send(
             b"12;param2=paramval2\015\012"
             b"quux is not a word\015\012"
+        )
+        sleep(2)
+        self.request.send(
             b"0\015\012"
             b"\015\012"
+        )
+        self.request.send(
             b"X-Trailer-Header: Trailer-Header-Value\015\012"
         )
 
